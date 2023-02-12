@@ -1,0 +1,10 @@
+<div fxFlex="100" fxLayout="column" fxLayoutAlign="end">
+  <app-header [deviceXs]="deviceXs"></app-header>
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="">
+    <app-side-bar [deviceXs]="deviceXs"></app-side-bar>
+    <div style="margin-left: 2%" fxFlex="100" >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <app-footer [ngClass]="{ footer: deviceXs }"></app-footer>
+</div>

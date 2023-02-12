@@ -1,0 +1,25 @@
+<div *ngIf="!deviceXs">
+    <mat-sidenav-container>
+      <mat-sidenav mode="side" [(opened)]="opened">Side </mat-sidenav>
+
+      <mat-sidenav-content>
+        <button (click)="opened = !opened">
+          <mat-icon fontIcon="menu">menu</mat-icon>
+        </button>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <mat-sidenav-container class="example-container" autosize>
+      <mat-sidenav #sidenav class="example-sidenav" mode="side">
+        <p>Auto-resizing sidenav</p>
+        <p *ngIf="showFiller">Extra content</p>
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+          Toggle extra text
+        </button>
+      </mat-sidenav>
+
+      <div class="example-sidenav-content">
+        <button type="button" mat-button (click)="sidenav.toggle()"></button>
+      </div>
+    </mat-sidenav-container>
+</div>

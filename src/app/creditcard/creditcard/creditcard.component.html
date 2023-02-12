@@ -1,0 +1,107 @@
+<div
+  id="parent"
+  fxLayout="row wrap"
+  fxFlex="100"
+  fxLayoutAlign.gt-lg="center center"
+  fxLayoutAlign.gt-md="center center"
+  fxLayoutAlign.gt-sm="center center"
+  fxLayoutAlign.gt-xs="center center"
+>
+  <div
+    
+    fxLayout="column"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxLayoutAlign.gt-lg="center center"
+    fxLayoutAlign.gt-md="center center"
+    fxLayoutAlign.gt-sm="center center"
+    fxLayoutAlign.gt-xs="center center"
+    fxFlex="100"
+  >
+   
+      <fieldset [formGroup]="cardForm" >
+        <legend>Checkout</legend>
+        <div class="example-container">
+          <mat-form-field
+            class="field"
+            appearance="standard"
+            floatLabel="always"
+          >
+            <input
+              #name
+              matInput
+              placeholder="Name"
+              required
+              formControlName="name"
+              [value]="cardForm.get('name')?.value | uppercase"
+            />
+            <mat-error *ngIf="name.minLength && name.required"
+              >Min 3 characters</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="example-container">
+          <mat-form-field class="field">
+            <mat-label>Card Number</mat-label>
+            <input
+              #cardNumber
+              matInput
+              placeholder="Card number"
+              formControlName="cardNumber"
+              required
+              [value]="cardForm.get('cardNumber')?.value | creditCard"
+            />
+            <mat-error *ngIf="!cardNumber.pattern"
+              >Invalid card number</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="example-container">
+          <mat-form-field class="field">
+            <mat-label>Card expiration (MM/YY)</mat-label>
+            <input
+              #expiration
+              matInput
+              placeholder="Card expiration"
+              formControlName="expiration"
+              required
+            />
+            <mat-error *ngIf="!expiration.pattern"
+              >Invalid expiration</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="example-container">
+          <mat-form-field class="field">
+            <mat-label>Security code:</mat-label>
+            <input
+              #securityCode
+              matInput
+              placeholder="securityCode"
+              formControlName="securityCode"
+              required
+              [value]="cardForm.get('securityCode')?.value | slice : 3:20 "
+            />
+            <mat-error *ngIf="!securityCode.pattern">Invalid code</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <button color="primary" mat-raised-button (click)="openDialog()">
+            Submit
+          </button>
+          <button
+            color="warn"
+            mat-raised-button
+            type="button"
+            (click)="onResetClick()"
+          >
+            Reset
+          </button>
+        </div>
+      </fieldset>
+    
+  </div>
+</div>

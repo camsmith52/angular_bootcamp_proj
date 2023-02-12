@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row">
+      <button mat-button>
+        <mat-icon routerLink="/">home</mat-icon>
+        <span></span>
+      </button>
+      <div *ngIf="!deviceXs">
+        <button mat-button routerLink="/exerciseslist">Exercises List</button>
+        <button mat-button routerLink="/create">Create</button>
+        <button mat-button routerLinkActive="active" routerLink="/wikipedia">
+          Wikipedia
+        </button>
+        <button mat-button routerLink="/creditcard">Pay</button>
+      </div>
+    </div>
+    <div mat-button style="display: flex; align-items: center;">
+      <button *ngIf="!deviceXs" mat-button routerLink="/login">Login</button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon fontIcon="menu">menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+      
+    </div>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row *ngIf="deviceXs" fxLayoutAlign="space-between end">
+    <button mat-button routerLink="/exerciseslist">Exercises List</button>
+    <button mat-button routerLink="/create">Create</button>
+    <button mat-button routerLinkActive="active" routerLink="/wikipedia">
+      Wikipedia
+    </button>
+    <button mat-button routerLink="/creditcard">Pay</button>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,9 @@
+
+<form (submit)="onFormSubmit($event)">
+  <label for="">Search wikipedia</label>
+
+  <div style="display: flex; align-items: center;">
+    <input (input)="term = $any($event).target.value" />
+    <mat-icon matTooltip="Try search 'Frodo' and click enter" fontIcon="help">help</mat-icon>
+  </div>
+</form>

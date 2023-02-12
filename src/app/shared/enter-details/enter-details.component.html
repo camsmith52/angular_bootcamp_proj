@@ -1,0 +1,55 @@
+<mat-card *ngIf="!loading"
+fxFlex="100" fxLayout="row" fxLayoutAlign="center center"
+>
+<div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card-header>
+    <mat-card-title
+      ><h2>{{ loginOrSignUp }}</h2></mat-card-title
+    >
+    <mat-card-subtitle>Enter your details below</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <div>
+        <div >
+          <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Enter your email</mat-label>
+            <input
+              matInput
+              placeholder="pat@example.com"
+              [formControl]="email"
+              required
+            />
+            <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" required [formControl]="password"/>
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+<div >
+  <button mat-raised-button color="accent" (click)="switchMode()">
+    Go to {{ oppositeLabel }}
+  </button>
+  <span style="width: 50px; display: inline-block;"></span>
+  <button mat-raised-button color="primary" (click)="onButtonClick()">{{ loginOrSignUp }}</button>
+</div>
+</div>
+</mat-card>
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+<mat-spinner ></mat-spinner>
+</div>
