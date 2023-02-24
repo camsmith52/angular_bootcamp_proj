@@ -1,12 +1,12 @@
 mat-sidenav-container {
     height: 90vh;
   }
-  
+
   mat-sidenav,mat-sidenav-content {
     padding:16px;
   }
-  
+
   mat-sidenav {
     width: 200px;
-    background-color: lightcoral;
+    background-color: #D3D3D3;
   }
