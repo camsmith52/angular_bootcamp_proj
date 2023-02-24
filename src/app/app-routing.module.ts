@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,9 @@ const routes: Routes = [
       import('./create-exercise/create-exercise.module').then(
         (m) => m.CreateExerciseModule
       ),
+      canActivate:[AuthGuard]
   },
+
   {
     path: 'exerciseslist',
     loadChildren: () =>
