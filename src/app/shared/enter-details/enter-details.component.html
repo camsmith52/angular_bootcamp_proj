@@ -1,6 +1,6 @@
 <mat-card *ngIf="!loading"
 fxFlex="100" fxLayout="row" fxLayoutAlign="center center"
->
+class="card">
 <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
   <mat-card-header>
     <mat-card-title
@@ -36,6 +36,7 @@ fxFlex="100" fxLayout="row" fxLayoutAlign="center center"
             >
               <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
             </button>
+            <mat-error *ngIf="duplicatedEmailError">{{ duplicatedEmailError }}</mat-error>
           </mat-form-field>
         </div>
       </div>

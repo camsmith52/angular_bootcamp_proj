@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthDetails } from 'src/app/interfaces/auth-details';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class EnterDetailsComponent implements OnInit {
   public hide = true;
   public loading: boolean = false;
   subscription: Subscription;
+  public duplicatedEmailError:string = '';
+  public card= true
 
   constructor(private router: Router, private httpService: HttpService) {}
 
@@ -31,11 +34,11 @@ export class EnterDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.buttonLabel();
-    this.subscription = this.httpService.loading$.subscribe(loading => {
-      console.log(loading)
-      console.log(this.loading,'this.loading')
+    this.subscription = this.httpService.loading$.subscribe((loading) => {
+      console.log(loading);
+      console.log(this.loading, 'this.loading');
       this.loading = loading;
-      console.log(this.loading,'this.loading updated')
+      console.log(this.loading, 'this.loading updated');
     });
   }
 
@@ -54,19 +57,51 @@ export class EnterDetailsComponent implements OnInit {
   }
 
   onButtonClick() {
-    this.loading = true
+    this.loading = true;
     if (this.loginOrSignUp === 'Login') {
-      this.httpService.getDetails(
-        'login',
-        this.email.value,
-        this.password.value
+     this.httpService
+      .sendDetails(
+        {
+          email: this.email.value,
+          password: this.password.value,
+        },
+        'login'
+      )
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.loading = false;
+          localStorage.setItem('accesstoken', response.accessToken);
+          this.router.navigate([`/exerciseslist`]);
+        },
+        (error) => {
+          this.duplicatedEmailError = error.error.message
+          console.error(error);
+          this.loading = false;
+        }
       );
       return;
     }
-    this.httpService.sendDetails(
-      'signup',
-      this.email.value,
-      this.password.value
-    );
+    this.httpService
+      .sendDetails(
+        {
+          email: this.email.value,
+          password: this.password.value,
+        },
+        'signUp'
+      )
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.loading = false;
+          localStorage.setItem('accesstoken', response.accessToken);
+          this.router.navigate([`/exerciseslist`]);
+        },
+        (error) => {
+          this.duplicatedEmailError = error.error.message
+          console.error(error);
+          this.loading = false;
+        }
+      );
   }
 }
