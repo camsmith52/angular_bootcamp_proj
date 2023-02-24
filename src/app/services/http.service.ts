@@ -7,6 +7,8 @@ import {
   retry,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserDetails } from '../interfaces/user-details';
+import { AuthDetails } from '../interfaces/auth-details';
 
 @Injectable({
   providedIn: 'root',
@@ -32,43 +34,29 @@ export class HttpService {
       map((response: any) => {return response.query.search}),
       finalize(() => {
         console.log('Sequence complete');
-        
+
       }
     ))
   }
 
   sendDetails(
-    apiEndPoint: string,
-    email: string | null,
-    password: string | null
+    userDetails: UserDetails,apiEndPoint:string
   ) {
-    
-  
-    this.httpClient
-      .post(`${environment.nodeDevBaseUrl}/${apiEndPoint}`, {
-        email,
-        password,
-      })
+
+
+    return this.httpClient
+      .post<AuthDetails>(`${environment.nodeDevBaseUrl}/${apiEndPoint}`, userDetails)
       .pipe(
         retry(2),
-        map((response: any) => response.email),
+        map((response: any) => response),
         finalize(() => {
           console.log('Sequence complete');
           this.isLoading.next(false);
         }
       ))
-      .subscribe(
-        (email: string) => {
-          console.log(email);
-          this.isLoading.next(false);
-        },
-        (error) => {
-          console.error(error);
-          this.isLoading.next(false);
-        }
-      );
+
   }
-  
+
 
   getDetails(
     apiEndPoint: string,
@@ -76,7 +64,7 @@ export class HttpService {
     password: string | null
   ) {
     this.isLoading.next(true);
-  
+
     this.httpClient
       .get(`${environment.nodeDevBaseUrl}/${apiEndPoint}`)
       .pipe(
