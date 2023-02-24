@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  nodeDevBaseUrl: 'http://localhost:3000',
+  nodeDevBaseUrl: 'http://localhost:4200',
 };
 
 
