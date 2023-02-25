@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SharedService } from '../services/shared.service';
 
@@ -10,9 +11,14 @@ import { SharedService } from '../services/shared.service';
 export class HeaderComponent implements OnInit {
 @Input() deviceXs:boolean
 
-constructor(){}
+constructor(private router: Router){}
 
 ngOnInit(): void {
+  }
+
+  onLogout(){
+    localStorage.removeItem('accesstoken')
+    this.router.navigate(['login'])
   }
 
 

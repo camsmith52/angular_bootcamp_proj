@@ -20,6 +20,7 @@ const routes: Routes = [
       import('./exercises-list/exercises-list.module').then(
         (m) => m.ExercisesListModule
       ),
+      canActivate:[AuthGuard]
   },
   {
     path: 'wikipedia',
@@ -30,6 +31,7 @@ const routes: Routes = [
     path: 'creditcard',
     loadChildren: () =>
       import('./creditcard/creditcard.module').then((m) => m.CreditcardModule),
+      canActivate:[AuthGuard]
   },
   {
     path: 'login',

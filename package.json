@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build-image": "docker build -t bootcamp.angular .",
-    "run-image": "docker run -p 4200:4200 -d bootcamp.angular"
+    "run-image": "docker run -p 4201:4200 -d bootcamp.angular"
   },
   "private": true,
   "dependencies": {
