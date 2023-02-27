@@ -2,22 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
+  catchError,
   finalize,
   map,
+  Observable,
   retry,
+  throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserDetails } from '../interfaces/user-details';
 import { AuthDetails } from '../interfaces/auth-details';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
   public isLoading = new BehaviorSubject<boolean>(false);
-  loading$ = this.isLoading.asObservable();
+  public message$ = new BehaviorSubject<string>('');
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,private messageService: MessageService) {}
 
   search(term:string){
     return this.httpClient.get('https://en.wikipedia.org/w/api.php',{
@@ -49,6 +53,12 @@ export class HttpService {
       .pipe(
         retry(2),
         map((response: any) => response),
+        catchError((error: any) =>{
+          return throwError(() =>{
+            this.messageService.openSnackBar('Incorrect credentials','Dismiss')
+            this.message$.next(error.error.message)}
+            )
+        }),
         finalize(() => {
           console.log('Sequence complete');
           this.isLoading.next(false);

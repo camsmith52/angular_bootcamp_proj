@@ -1,25 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthDetails } from 'src/app/interfaces/auth-details';
 import { HttpService } from 'src/app/services/http.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-enter-details',
   templateUrl: './enter-details.component.html',
   styleUrls: ['./enter-details.component.css'],
 })
-export class EnterDetailsComponent implements OnInit {
+export class EnterDetailsComponent implements OnInit, OnDestroy {
   @Input() loginOrSignUp!: string;
   public oppositeLabel: string = '';
   public hide = true;
   public loading: boolean = false;
-  subscription: Subscription;
-  public duplicatedEmailError:string = '';
+  public message:string = '';
   public card= true
 
-  constructor(private router: Router, private httpService: HttpService) {}
+
+  constructor(private router: Router, private httpService: HttpService,private messageService: MessageService) {}
+
+
+
 
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, Validators.email]);
@@ -34,12 +38,12 @@ export class EnterDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.buttonLabel();
-    this.subscription = this.httpService.loading$.subscribe((loading) => {
-      console.log(loading);
-      console.log(this.loading, 'this.loading');
+    this.httpService.isLoading.subscribe((loading) => {
       this.loading = loading;
-      console.log(this.loading, 'this.loading updated');
     });
+    this.httpService.message$.subscribe((message)=>{
+      this.message = message;
+    })
   }
 
   buttonLabel() {
@@ -59,6 +63,7 @@ export class EnterDetailsComponent implements OnInit {
   onButtonClick() {
     this.loading = true;
     if (this.loginOrSignUp === 'Login') {
+
      this.httpService
       .sendDetails(
         {
@@ -69,16 +74,12 @@ export class EnterDetailsComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          console.log(response);
-          this.loading = false;
+
+          console.log('i got hit');
           localStorage.setItem('accesstoken', response.accessToken);
+          this.messageService.openSnackBar('Successfully logged in','Dismiss')
           this.router.navigate([`/exerciseslist`]);
         },
-        (error) => {
-          this.duplicatedEmailError = error.error.message
-          console.error(error);
-          this.loading = false;
-        }
       );
       return;
     }
@@ -92,16 +93,17 @@ export class EnterDetailsComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          console.log(response);
-          this.loading = false;
+          console.log(response, 'i got hit');
+          // this.loading = false;
           localStorage.setItem('accesstoken', response.accessToken);
           this.router.navigate([`/exerciseslist`]);
         },
-        (error) => {
-          this.duplicatedEmailError = error.error.message
-          console.error(error);
-          this.loading = false;
-        }
       );
   }
+
+   ngOnDestroy(): void {
+    console.log('ondestroy running')
+    // throw new Error('Method not implemented.');
+  }
+
 }
