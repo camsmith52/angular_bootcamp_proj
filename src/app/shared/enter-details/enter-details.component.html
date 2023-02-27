@@ -36,7 +36,7 @@ class="card">
             >
               <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
             </button>
-            <mat-error *ngIf="duplicatedEmailError">{{ duplicatedEmailError }}</mat-error>
+            <mat-error *ngIf="message">{{ message }}</mat-error>
           </mat-form-field>
         </div>
       </div>
