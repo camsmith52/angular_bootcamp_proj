@@ -67,11 +67,11 @@ import {MatMenuModule} from '@angular/material/menu';
   ],
 
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ModifyHeadingsInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ModifyHeadingsInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoggingInterceptor,
