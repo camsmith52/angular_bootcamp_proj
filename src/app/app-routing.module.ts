@@ -43,6 +43,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./sign-up/sign-up.module').then((m) => m.SignUpModule),
   },
+  {
+    path: 'signout',
+    loadChildren: () =>
+      import('./sign-out/sign-out.module').then((m) => m.SignOutModule)
+  },
   { path: '', component: HomeComponent },
   {
     path: '**',
