@@ -3,7 +3,8 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpEventType
 } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { SessionStorageService } from './services/session-storage.service';
@@ -15,10 +16,15 @@ export class LoggingInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.sessionStorageService.setHttpLoggingDetails(req.url,req.headers,req.body)
-    
+
     return next.handle(req).pipe(
       tap(event => {
-        console.log('Response:', event);
+        if(event.type===HttpEventType.Sent){
+          console.log('Req sent');
+        }
+        if(event.type===HttpEventType.Response){
+          console.log('Response:', event);
+        }
       })
     );
   }

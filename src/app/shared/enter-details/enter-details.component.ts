@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthDetails } from 'src/app/interfaces/auth-details';
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MessageService } from 'src/app/services/message.service';
 
@@ -20,7 +21,7 @@ export class EnterDetailsComponent implements OnInit, OnDestroy {
   public card= true
 
 
-  constructor(private router: Router, private httpService: HttpService,private messageService: MessageService) {}
+  constructor(private router: Router, private httpService: HttpService,private messageService: MessageService, private authService: AuthService) {}
 
 
 
@@ -77,6 +78,7 @@ export class EnterDetailsComponent implements OnInit, OnDestroy {
 
           console.log('i got hit');
           localStorage.setItem('accesstoken', response.accessToken);
+          this.authService.isLoggedIn()
           this.messageService.openSnackBar('Successfully logged in','Dismiss')
           this.router.navigate([`/exerciseslist`]);
         },

@@ -15,7 +15,9 @@
       </div>
     </div>
     <div mat-button style="display: flex; align-items: center;">
-      <button *ngIf="!deviceXs" mat-button routerLink="/login">Login</button>
+      <button *ngIf="!deviceXs && !isLoggedIn" mat-button routerLink="/login">Login</button>
+      <button *ngIf="!deviceXs && !isLoggedIn" mat-button routerLink="/signup">Sign up</button>
+      <button *ngIf="!deviceXs && isLoggedIn" mat-button routerLink="/signout">Sign Out</button>
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon fontIcon="menu">menu</mat-icon>
       </button>
